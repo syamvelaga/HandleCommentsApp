@@ -1,1 +1,31 @@
 /* Write your CSS here */
+
+.comments-create-container {
+  display: flex;
+  justify-content: space-between;
+}
+.main-container {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.count-comments {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 120px;
+}
+
+.count {
+  background-color: #0284c7;
+  width: 30px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #dee0e3;
+}
+
+.comment-list-container {
+  list-style-type: none;
+  padding-left: 0px;
+}
