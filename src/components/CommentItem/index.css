@@ -84,3 +84,9 @@
   font-size: 10px;
   margin-left: 10px;
 }
+
+.round {
+  height: 50px;
+  width: 50px;
+  border-radius: 40px;
+}

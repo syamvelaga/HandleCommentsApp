@@ -1,13 +1,3 @@
-// const initialContainerBackgroundClassNames = [
-//   'amber',
-//   'blue',
-//   'orange',
-//   'emerald',
-//   'teal',
-//   'red',
-//   'light-blue',
-// ]
-
 // Write your code here
 
 import {Component} from 'react'
@@ -18,13 +8,40 @@ import CommentItem from '../CommentItem'
 
 import './index.css'
 
+const initialContainerBackgroundClassNames = [
+  'amber',
+  'blue',
+  'orange',
+  'emerald',
+  'teal',
+  'red',
+  'light-blue',
+]
+
 export default class Comments extends Component {
-  state = {name: '', comment: '', isLiked: false, commentList: []}
+  state = {name: '', comment: '', commentList: []}
 
   handelName = e => {
     const yourname = e.target.value
 
     this.setState({name: yourname})
+  }
+
+  HandleLikeEvent = id => {
+    this.setState(prev => ({
+      commentList: prev.commentList.map(each => {
+        if (id === each.id) {
+          return {...each, isLiked: !each.isLiked}
+        }
+        return each
+      }),
+    }))
+  }
+
+  HandleDeleteEvent = id => {
+    this.setState(prev => ({
+      commentList: prev.commentList.filter(each => each.id !== id),
+    }))
   }
 
   handelComment = e => {
@@ -38,7 +55,12 @@ export default class Comments extends Component {
 
     const {name, comment, commentList} = this.state
 
-    const newCommentObj = {id: uuidv4(), name, comment}
+    const newCommentObj = {
+      id: uuidv4(),
+      name,
+      comment,
+      isLiked: false,
+    }
 
     this.setState({
       commentList: [...commentList, newCommentObj],
@@ -48,8 +70,10 @@ export default class Comments extends Component {
   }
 
   render() {
-    const {name, comment, commentList, isLiked} = this.state
+    const {name, comment, commentList} = this.state
     // console.log(name, comment)
+    // console.log(commentList)
+
     // console.log(commentList)
 
     return (
@@ -64,6 +88,7 @@ export default class Comments extends Component {
               onChange={this.handelName}
               type="text"
               placeholder="Your Name"
+              required
             />
             <br />
             <br />
@@ -74,6 +99,7 @@ export default class Comments extends Component {
               cols="25"
               type="text"
               placeholder="Your Comment"
+              required
             />
             <br />
             <br />
@@ -89,12 +115,20 @@ export default class Comments extends Component {
         <br />
         <hr />
         <div className="count-comments">
-          <p className="count">2</p>
+          <p className="count">{commentList.length}</p>
           <p>Comments</p>
         </div>
         <ul className="comment-list-container">
           {commentList.map(each => (
-            <CommentItem isLiked={isLiked} key={each.id} each={each} />
+            <CommentItem
+              HandleLikeEvent={this.HandleLikeEvent}
+              HandleDeleteEvent={this.HandleDeleteEvent}
+              key={each.id}
+              each={each}
+              initialContainerBackgroundClassNames={
+                initialContainerBackgroundClassNames
+              }
+            />
           ))}
         </ul>
       </div>
